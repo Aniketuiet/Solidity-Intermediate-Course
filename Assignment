@@ -1,0 +1,24 @@
+pragma solidity ^0.8.0;
+
+contract ExceptionHandling {
+    uint256 public total;
+
+    function add(uint256 num1, uint256 num2) external {
+        require(num1 > 0, "num1 must be greater than 0");
+        require(num2 > 0, "num2 must be greater than 0");
+
+        uint256 result = num1 + num2;
+        assert(result > num1);
+
+        total = result;
+    }
+
+    function subtract(uint256 num1, uint256 num2) external {
+        if (num2 > num1) {
+            revert("num2 cannot be greater than num1");
+        }
+
+        uint256 result = num1 - num2;
+        total = result;
+    }
+}
