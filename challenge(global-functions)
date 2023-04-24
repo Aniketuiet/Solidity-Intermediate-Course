@@ -1,0 +1,25 @@
+pragma solidity ^0.8.0;
+
+contract GlobalFunctions {
+    uint256 public counter;
+
+    function incrementCounter() external {
+        counter = msg.sender.balance.add(block.timestamp).add(tx.gasprice);
+    }
+
+    function getBlockHash(uint256 blockNumber) external view returns (bytes32) {
+        return blockhash(blockNumber);
+    }
+
+    function getCurrentTimestamp() external view returns (uint256) {
+        return block.timestamp;
+    }
+
+    function getCurrentBlockNumber() external view returns (uint256) {
+        return block.number;
+    }
+
+    function getCurrentGasPrice() external view returns (uint256) {
+        return tx.gasprice;
+    }
+}
