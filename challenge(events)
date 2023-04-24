@@ -1,0 +1,55 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract MyContract {
+    event EventOne(address indexed _from, uint256 _value);
+    event EventTwo(string _message);
+    event EventThree(bytes32 _hash);
+
+    function triggerEvents() public {
+        emit EventOne(msg.sender, 100);
+        emit EventTwo("Hello, world!");
+        emit EventThree(keccak256("mydata"));
+    }
+}
+
+
+
+// Now, to capture these events in your JavaScript code, you will need to use a web3 library such as web3.js or ethers.js. Here is an example using web3.js:
+const Web3 = require('web3');
+const web3 = new Web3('http://localhost:8545'); // replace with your node URL
+
+const contractAddress = '0x1234567890123456789012345678901234567890'; // replace with your contract address
+const contractABI = [/* your contract ABI */]; // replace with your contract ABI
+
+const myContract = new web3.eth.Contract(contractABI, contractAddress);
+
+myContract.events.EventOne({}, (error, event) => {
+  console.log(event.returnValues);
+})
+.on('connected', () => {
+  console.log('EventOne subscription connected');
+})
+.on('error', (error) => {
+  console.log('EventOne subscription error', error);
+});
+
+myContract.events.EventTwo({}, (error, event) => {
+  console.log(event.returnValues);
+})
+.on('connected', () => {
+  console.log('EventTwo subscription connected');
+})
+.on('error', (error) => {
+  console.log('EventTwo subscription error', error);
+});
+
+myContract.events.EventThree({}, (error, event) => {
+  console.log(event.returnValues);
+})
+.on('connected', () => {
+  console.log('EventThree subscription connected');
+})
+.on('error', (error) => {
+  console.log('EventThree subscription error', error);
+});
